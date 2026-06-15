@@ -1,0 +1,216 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import SchemaMarkup from '../../components/SchemaMarkup.astro';
+import { getCollection, render } from 'astro:content';
+import config from '../../data/config.json';
+
+// Enable static site generation
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((guide) => ({
+    params: { slug: guide.id },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await render(guide);
+
+const title = guide.data.title;
+const description = guide.data.description;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Guides & Actualités", href: "/guides/" },
+  { label: title }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup 
+    slot="head" 
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={breadcrumbItems}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <section class="static-page-section" style="padding: 50px 0 80px; background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout">
+        
+        <!-- Main Content (Blog Post) -->
+        <article class="static-main-content rich-text" style="background: var(--card-bg); padding: 40px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+          <div style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 15px; display: flex; gap: 10px; align-items: center;">
+            <span>📅 Publié le {guide.data.publishDate}</span>
+            <span>·</span>
+            <span>🏷️ {guide.data.tags?.join(', ')}</span>
+          </div>
+
+          <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 24px; line-height: 1.25;">
+            {guide.data.title}
+          </h1>
+
+          {guide.data.image && (
+            <div style="margin-bottom: 30px; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); aspect-ratio: 16/9; background: #111;">
+              <img 
+                src={guide.data.image} 
+                alt={guide.data.title} 
+                style="width: 100%; height: 100%; object-fit: cover;" 
+              />
+            </div>
+          )}
+
+          <!-- Markdown HTML Content -->
+          <div class="markdown-body">
+            <Content />
+          </div>
+
+          <div style="background: var(--primary-light); border: 1.5px solid var(--border-color); padding: 25px; border-radius: var(--radius-md); margin-top: 40px;">
+            <h3 style="margin-top: 0; color: var(--primary); font-size: 17px; font-weight: 700; border-bottom: 2px solid var(--border-color); padding-bottom: 8px; margin-bottom: 15px;">🔗 Vous aimerez aussi :</h3>
+            <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 12px; font-size: 14px; margin-bottom: 0;">
+              <li>🛠️ <a href="/guide-installation/" style="color: var(--secondary); font-weight: 700;">Guide technique de câblage et normes NF C 15-100</a></li>
+              <li>💰 <a href="/aides-advenir/" style="color: var(--secondary); font-weight: 700;">Découvrez les subventions ADVENIR et crédits d'impôt</a></li>
+              <li>🧮 <a href="/tarifs/" style="color: var(--secondary); font-weight: 700;">Consultez nos prix d'installation détaillée 2026</a></li>
+              <li>🚗 <a href="/v2h-vehicule-to-home/" style="color: var(--secondary); font-weight: 700;">Le bidirectionnel V2H à Toulouse (Haute-Garonne)</a></li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Sidebar Widgets -->
+        <aside class="static-sidebar">
+          <div class="sidebar-widget bg-purple-gradient">
+            <h3>🧮 Simuler mon projet</h3>
+            <p>Demandez 3 devis comparatifs gratuits d'artisans IRVE près de chez vous en Haute-Garonne et économisez sur la pose.</p>
+            <a href="/devis/" class="sidebar-cta-gold">Demander mes devis →</a>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3>🏢 À propos de {config.brandName}</h3>
+            <p style="font-size: 13px;">Nous sommes le spécialiste de la mise en relation pour l'équipement électrique résidentiel et collectif en Haute-Garonne (31). Nos installateurs certifiés IRVE interviennent sur Toulouse Métropole et l'ensemble du département.</p>
+            <a href="/communes/" style="color: var(--secondary); font-weight: 700; font-size: 13px;">Voir nos zones d'intervention →</a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style is:global>
+  /* Markdown styling overrides inside guide articles */
+  .markdown-body h2 {
+    font-size: 22px;
+    margin: 35px 0 15px;
+    color: var(--primary);
+  }
+  .markdown-body h3 {
+    font-size: 17px;
+    margin: 25px 0 12px;
+    color: var(--primary);
+  }
+  .markdown-body p {
+    margin-bottom: 18px;
+    line-height: 1.65;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .markdown-body ul, .markdown-body ol {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 15px;
+  }
+
+  /* ── Table responsive scroll fix ── */
+  .markdown-body table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .markdown-body thead,
+  .markdown-body tbody {
+    display: table;
+    width: 100%;
+    table-layout: auto;
+  }
+  .markdown-body tr {
+    display: table-row;
+  }
+  .markdown-body th,
+  .markdown-body td {
+    display: table-cell;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+    vertical-align: top;
+  }
+  .markdown-body th {
+    background-color: var(--primary-light);
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 12.5px;
+    white-space: normal;
+  }
+  .markdown-body td:first-child,
+  .markdown-body th:first-child {
+    white-space: normal;
+    min-width: 100px;
+    font-weight: 600;
+  }
+  .markdown-body blockquote {
+    border-left: 4px solid var(--accent);
+    background: var(--primary-light);
+    padding: 15px 20px;
+    margin: 25px 0;
+    border-radius: var(--radius-sm);
+    color: var(--primary);
+  }
+
+  /* ── Layout responsive ── */
+  @media (max-width: 992px) {
+    .two-column-layout {
+      grid-template-columns: 1fr !important;
+    }
+  }
+  @media (max-width: 768px) {
+    .markdown-body table {
+      font-size: 12px;
+      margin: 15px -15px;
+      width: calc(100% + 30px);
+      border-radius: 0;
+    }
+    .markdown-body th,
+    .markdown-body td {
+      padding: 8px 10px;
+      font-size: 11.5px;
+    }
+    .markdown-body td:first-child,
+    .markdown-body th:first-child {
+      min-width: 80px;
+      position: sticky;
+      left: 0;
+      background: var(--card-bg);
+      z-index: 1;
+      border-right: 2px solid var(--border-color);
+    }
+    .markdown-body th:first-child {
+      background: var(--primary-light);
+      z-index: 2;
+    }
+    .static-main-content {
+      padding: 20px !important;
+    }
+  }
+</style>
+

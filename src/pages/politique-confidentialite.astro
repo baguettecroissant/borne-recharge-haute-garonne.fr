@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import config from '../data/config.json';
+
+const title = `Politique de Confidentialité (RGPD) | ${config.brandName}`;
+const description = `Politique de protection des données personnelles (RGPD) du site ${config.domain}.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Politique de Confidentialité" }
+];
+---
+
+<Layout title={title} description={description} robots="noindex, nofollow">
+  <Breadcrumb items={breadcrumbItems} />
+
+  <section class="static-page-section" style="padding: 50px 0 80px; background-color: var(--bg);">
+    <div class="container">
+      <div class="static-main-content" style="background: var(--card-bg); padding: 40px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); max-width: 800px; margin: 0 auto;">
+        <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 20px;">Politique de Confidentialité (RGPD)</h1>
+        
+        <p>
+          La protection de vos données personnelles est au cœur de nos engagements. Cette politique de confidentialité détaille la manière dont le site <strong>{config.domain}</strong> collecte, stocke et traite les informations que vous fournissez lors de l'utilisation de nos formulaires de demande d'estimation et de devis.
+        </p>
+
+        <h2>1. Collecte des données personnelles</h2>
+        <p>
+          Lorsque vous effectuez une demande de devis ou de simulation sur notre site, nous collectons les données suivantes nécessaires à la qualification commerciale de votre projet d'installation :
+        </p>
+        <ul style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+          <li><strong>Identité :</strong> Nom et Prénom</li>
+          <li><strong>Coordonnées :</strong> Adresse email et Numéro de téléphone portable (pour confirmation technique et prise de rendez-vous)</li>
+          <li><strong>Localisation :</strong> Code postal (doit appartenir au département de la Haute-Garonne, préfixe 31) et Ville</li>
+          <li><strong>Détails du projet :</strong> Type de logement (maison individuelle, copropriété), type de recharge souhaitée (7.4 kW, prise renforcée), puissance de raccordement actuelle.</li>
+        </ul>
+
+        <h2>2. Finalité du traitement</h2>
+        <p>
+          Ces données sont collectées uniquement pour :
+        </p>
+        <ul style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+          <li>Estimer l'éligibilité aux subventions et primes ADVENIR.</li>
+          <li>Transmettre votre demande technique à notre réseau d'électriciens partenaires certifiés IRVE localisés en Haute-Garonne (31) afin qu'ils puissent éditer jusqu'à 3 devis comparatifs gratuits.</li>
+          <li>Assurer le suivi technique et commercial de votre dossier de raccordement de borne.</li>
+        </ul>
+
+        <h2>3. Destinataires des données (Double-écriture sécurisée)</h2>
+        <p>
+          Vos données font l'objet d'un double enregistrement sécurisé :
+        </p>
+        <ol style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+          <li>Dans notre base de données sécurisée <strong>Supabase</strong> (table de plomb cryptée `rank_rent_leads` sous protocole SSL).</li>
+          <li>Transmises via API chiffrée vers la plateforme d'intermédiation de devis d'électriciens <strong>ViteUnDevis API</strong> afin de distribuer instantanément votre demande aux installateurs de proximité en Haute-Garonne.</li>
+        </ol>
+        <p>
+          Aucune de vos coordonnées n'est vendue, louée ou cédée à des entreprises tierces de télémarketing n'ayant pas de rapport direct avec votre projet d'installation électrique.
+        </p>
+
+        <h2>4. Durée de conservation des données</h2>
+        <p>
+          Les données personnelles collectées sont conservées en base sécurisée pendant une durée maximale de **3 ans** à compter de la date de soumission du formulaire, ou jusqu'à ce que vous exerciez votre droit de rétractation.
+        </p>
+
+        <h2>5. Vos Droits (Droit d'accès, rectification et suppression)</h2>
+        <p>
+          Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, de portabilité et de suppression de l'ensemble de vos données nominatives.
+        </p>
+        <p>
+          Pour exercer ces droits, il vous suffit de nous adresser une demande par simple email à l'adresse suivante : <strong>contact@{config.domain}</strong>. L'équipe technique procédera au retrait définitif de vos données sous un délai maximal de 48 heures ouvrées.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

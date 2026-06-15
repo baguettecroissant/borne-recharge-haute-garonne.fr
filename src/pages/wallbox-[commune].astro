@@ -1,0 +1,260 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import CityMap from '../components/CityMap.astro';
+import StepsForm from '../components/StepsForm.astro';
+import config from '../data/config.json';
+import communes from '../data/communes.json';
+import { generateCommuneContent, getDynamicPrices } from '../lib/contentEngine';
+import { getSmartNearbyCommunes } from '../lib/geoLinks';
+
+export async function getStaticPaths() {
+  return communes.map((c) => ({
+    params: { commune: c.slug },
+    props: { commune: c },
+  }));
+}
+
+const { commune } = Astro.props;
+const content = generateCommuneContent(commune, 'wallbox');
+const prices = getDynamicPrices(commune);
+
+const title = `Achat et Pose de Wallbox ${commune.nom} (${commune.codePostal}) | Devis Borne`;
+const description = `Comparez les meilleures bornes murales (Wallbox) à ${commune.nom}. Tarifs raccordés de 7.4 kW et 22 kW installés par des électriciens IRVE.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Villes (31)", href: "/communes/" },
+  { label: `Wallbox ${commune.nom}` }
+];
+
+// Get nearby communes for interlinking
+const nearby = getSmartNearbyCommunes(commune.slug, communes, 6, 2);
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup 
+    slot="head" 
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={breadcrumbItems}
+    communeName={commune.nom}
+    faqItems={content.faqItems}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <!-- Localized Hero Section -->
+  <section class="hero" style="background: linear-gradient(135deg, #500724 0%, #be185d 100%); color: white; padding: 60px 0 70px; position: relative;">
+    <div class="container">
+      <div class="hero-inner" style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center;">
+        <div>
+          <span class="hero-badge">⚡ Bornes Connectées &amp; Wallbox à {commune.nom}</span>
+          <h1 style="font-size: 34px; color: white; line-height: 1.25; margin-bottom: 20px; font-weight: 800;">
+            Achat &amp; Installation de Wallbox à {commune.nom}
+          </h1>
+          <p style="font-size: 16px; color: var(--primary-light); margin-bottom: 25px; line-height: 1.6;">
+            {content.introParagraph}
+          </p>
+          <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+            <div style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 12px 18px; border-radius: 8px; font-size: 13.5px;">
+              <strong>Wallbox 7.4 kW TTC posé :</strong><br/>
+              À partir de <span style="color: #fca5a5; font-weight: bold; font-size: 15px;">{prices.wallbox7kW.min} € TTC</span>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 12px 18px; border-radius: 8px; font-size: 13.5px;">
+              <strong>Crédit d'impôt :</strong><br/>
+              Déduction directe de <span style="color: #fca5a5; font-weight: bold; font-size: 15px;">500 € net</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Lead Form -->
+        <div id="devis">
+          <StepsForm />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="static-page-section" style="padding: 65px 0; background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout">
+        
+        <!-- Main Content -->
+        <div class="static-main-content rich-text" style="background: var(--card-bg); padding: 40px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+          
+          <h2>1. Pourquoi équiper sa maison de {commune.nom} d'une Wallbox ?</h2>
+          <p>
+            {content.useCaseText}
+          </p>
+          <p>
+            {content.populationTierContent}
+          </p>
+
+          <blockquote style="border-left: 4px solid var(--accent); background: var(--primary-light); padding: 15px 20px; margin: 25px 0; border-radius: var(--radius-sm); color: var(--primary);">
+            <strong>💡 Smart Charging Linky :</strong> Nos modèles de bornes intègrent un pilotage dynamique intelligent. En dialoguant avec votre compteur Linky à {commune.nom}, la Wallbox adapte instantanément son intensité pour charger à puissance maximale sans jamais faire disjoncter votre foyer.
+          </blockquote>
+
+          <h2>2. Prix d'achat &amp; de pose d'une Wallbox à {commune.nom} (31)</h2>
+          <p>
+            {content.tableIntro}
+          </p>
+
+          <div class="table-scroll-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Modèle &amp; Puissance de la Borne</th>
+                  <th>Utilisation Recommandée</th>
+                  <th>Prix Public Moyen Posé</th>
+                  <th>Reste à Charge Moyen*</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Wallbox 7.4 kW Monophasé (Pulsar Max, Copper)</strong></td>
+                  <td>Charge de nuit complète en 7h (Maison)</td>
+                  <td class="price">{prices.wallbox7kW.min} € - {prices.wallbox7kW.max} €</td>
+                  <td style="font-weight: bold; color: var(--secondary);">{prices.wallbox7kW.min - 500} € - {prices.wallbox7kW.max - 500} €</td>
+                </tr>
+                <tr>
+                  <td><strong>Wallbox 11 kW Triphasé (Keba, Hager)</strong></td>
+                  <td>Idéal grandes batteries (Charge en 5h)</td>
+                  <td class="price">{prices.wallbox11kW.min} € - {prices.wallbox11kW.max} €</td>
+                  <td style="font-weight: bold; color: var(--secondary);">{prices.wallbox11kW.min - 500} € - {prices.wallbox11kW.max - 500} €</td>
+                </tr>
+                <tr>
+                  <td><strong>Wallbox 22 kW Triphasé Rapide</strong></td>
+                  <td>Flottes professionnelles et commerces</td>
+                  <td class="price">{prices.wallbox22kW.min} € - {prices.wallbox22kW.max} €</td>
+                  <td style="font-weight: bold; color: var(--secondary);">{prices.wallbox22kW.min - 500} € - {prices.wallbox22kW.max - 500} €</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.45;">
+            * Le reste à charge pour {commune.nom} est obtenu après déduction du crédit d'impôt national de 500 € (TVA 5,5% déjà comprise sur la facture de votre installateur IRVE).
+          </p>
+
+          <h2>3. Protections électriques et caractéristiques techniques du câblage</h2>
+          <p>
+            {content.communeDataInsight}
+          </p>
+          <p>
+            {content.logisticsAlert}
+          </p>
+
+          <!-- Interactive Map -->
+          <div style="margin: 30px 0; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+            <CityMap address={`${commune.nom}, Haute-Garonne, France`} />
+          </div>
+
+          <h2>4. Économies &amp; valorisation verte sous le climat toulousain</h2>
+          <p>
+            {content.ecoText}
+          </p>
+          <p>
+            {content.marcheImmobilierInsight}
+          </p>
+
+          <!-- External Resources -->
+          <div style="margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 30px;">
+            <h2>5. Ressources officielles & comparateurs indépendants</h2>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 15px;">Liens vérifiés vers les sources de référence pour votre projet Wallbox à {commune.nom} :</p>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              {content.externalLinks.map((link) => (
+                <a href={link.url} target="_blank" rel="noopener noreferrer" style="display: flex; gap: 12px; padding: 14px 18px; background: var(--bg); border: 1px solid var(--border-color); border-radius: var(--radius-sm); transition: var(--transition); align-items: flex-start;">
+                  <span style="font-size: 18px; flex-shrink: 0;">🔗</span>
+                  <div>
+                    <span style="font-weight: 700; font-size: 14px; color: var(--secondary); display: block;">{link.label}</span>
+                    <span style="font-size: 12.5px; color: var(--text-muted); line-height: 1.4; display: block; margin-top: 3px;">{link.description}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <!-- Guide Links -->
+          <div style="margin-top: 35px; background: var(--primary-light); border: 1.5px solid var(--border-color); padding: 25px; border-radius: var(--radius-md);">
+            <h3 style="margin-top: 0; color: var(--primary); font-size: 16px; font-weight: 700; border-bottom: 2px solid var(--border-color); padding-bottom: 8px; margin-bottom: 15px;">📖 Guides complémentaires recommandés</h3>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              {content.guideLinks.map((guide) => (
+                <a href={guide.href} style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-sm); transition: var(--transition);">
+                  <div>
+                    <span style="font-weight: 700; font-size: 13.5px; color: var(--secondary);">{guide.label}</span>
+                    <span style="font-size: 12px; color: var(--text-muted); display: block; margin-top: 2px;">{guide.desc}</span>
+                  </div>
+                  <span style="color: var(--accent); font-size: 16px; flex-shrink: 0;">→</span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <p style="font-size: 11.5px; color: var(--text-muted); margin-top: 25px; font-style: italic; border-top: 1px solid var(--border-color); padding-top: 15px;">
+            {content.sourcesCitation} — Mis à jour : {content.lastUpdated}
+          </p>
+
+          <!-- FAQ Accordion -->
+          <h2 style="margin-top: 40px;">FAQ : Votre borne Wallbox à {commune.nom}</h2>
+          <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 20px;">
+            {content.faqItems.map((faq) => (
+              <details class="faq-details">
+                <summary>{faq.question}</summary>
+                <div class="faq-answer">
+                  <p>{faq.answer}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+
+          <!-- Interlinking to nearby communes -->
+          <div style="border-top: 1px solid var(--border-color); padding-top: 35px; margin-top: 45px;">
+            <h3 style="margin-top: 0; color: var(--primary); font-size: 16px; margin-bottom: 15px;">⚡ Installation de Wallbox dans les communes voisines :</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+              {nearby.map((n) => (
+                <a href={`/wallbox-${n.slug}/`} style="font-size: 13px; color: var(--secondary); font-weight: 700; background: var(--primary-light); padding: 8px 12px; border-radius: 4px; border: 1.5px solid var(--border-color);">
+                  ⚡ Bornes Wallbox - {n.nom} ({n.codePostal}) &rarr;
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="static-sidebar">
+          <div class="sidebar-widget bg-purple-gradient">
+            <h3>⚡ Installer ma Wallbox</h3>
+            <p>Demandez vos devis de raccordement. Un installateur local de Haute-Garonne étudie votre puissance Linky et votre tableau électrique.</p>
+            <a href="#devis" class="sidebar-cta-gold">Demander mes devis &rarr;</a>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3>🔌 Solutions alternatives</h3>
+            <p style="font-size: 13px;">Vous possédez un appartement en copropriété ou souhaitez des conseils généraux sur la qualification IRVE ?</p>
+            <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+              <li>🔌 <a href={`/installateur-borne-recharge-${commune.slug}/`} style="color: var(--secondary); font-weight: 700;">Pose de borne en Maison à {commune.nom} &rarr;</a></li>
+              <li>🏢 <a href={`/borne-recharge-copropriete-${commune.slug}/`} style="color: var(--secondary); font-weight: 700;">Pose en Copropriété à {commune.nom} &rarr;</a></li>
+            </ul>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3>📈 Plus-value Immobilière</h3>
+            <p style="font-size: 13.5px; line-height: 1.55;">{content.realEstateInsight}</p>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  @media (max-width: 992px) {
+    .hero-inner {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

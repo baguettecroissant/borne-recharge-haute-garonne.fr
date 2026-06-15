@@ -1,0 +1,143 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Aides Installation Borne de Recharge 2026 : ADVENIR & Crédit d'impôt`;
+const description = `Estimez les subventions pour installer votre borne de recharge en Haute-Garonne (31) : crédit d'impôt de 500 €, prime ADVENIR copropriété, TVA 5,5%.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Aides Financières 2026" }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup 
+    slot="head" 
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={breadcrumbItems}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <section class="static-page-section" style="padding: 50px 0 80px; background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout">
+        
+        <!-- Main Content -->
+        <div class="static-main-content rich-text" style="background: var(--card-bg); padding: 40px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+          <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 20px;">Aides et Subventions Borne de Recharge 2026 en Haute-Garonne</h1>
+          
+          <p>
+            Afin de soutenir la transition vers la mobilité propre, le gouvernement français et le programme ADVENIR maintiennent des dispositifs financiers incitatifs majeurs en 2026 pour l'acquisition et la pose de points de charge à domicile. Que vous habitiez dans un appartement au centre-ville de Toulouse, un pavillon d'ingénieur à Blagnac ou Colomiers, ou une maison individuelle à Muret, voici le récapitulatif officiel des subventions cumulables.
+          </p>
+
+          <blockquote style="border-left: 4px solid var(--accent); background: var(--primary-light); padding: 15px 20px; margin: 25px 0; border-radius: var(--radius-sm); color: var(--primary);">
+            <strong>⚠️ Condition obligatoire :</strong> L'ensemble de ces subventions (Crédit d'impôt, prime ADVENIR, TVA à taux réduit) est conditionné à l'installation par un professionnel titulaire de la <strong>qualification IRVE</strong> (Infrastructure de Recharge pour Véhicules Électriques).
+          </blockquote>
+
+          <h2>1. Le Crédit d'Impôt National (Maison &amp; Copropriété)</h2>
+          <p>
+            Le crédit d'impôt pour l'installation d'une borne de recharge sur les places de stationnement résidentielles est fixé à <strong>500 € par système de charge</strong> en 2026 :
+          </p>
+          <ul style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>Montant :</strong> 75% du montant des dépenses (fourniture et pose), plafonné à <strong>500 €</strong> par borne de recharge pilote.</li>
+            <li><strong>Éligibilité :</strong> Tous les contribuables résidant en France (propriétaires, locataires ou occupants à titre gratuit).</li>
+            <li><strong>Type de logement :</strong> Résidence principale ou résidence secondaire (limité à une résidence secondaire par foyer fiscal).</li>
+            <li><strong>Spécificité :</strong> La borne doit être pilotable (permettant la modulation de puissance selon les heures pleines / heures creuses).</li>
+          </ul>
+
+          <h2>2. La Prime ADVENIR (Réservée à l'habitat collectif)</h2>
+          <p>
+            Si vous résidez en appartement ou en copropriété, le programme national ADVENIR finance une partie importante de vos travaux individuels de raccordement et de pose :
+          </p>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Cible du projet</th>
+                <th>Taux de cofinancement</th>
+                <th>Plafond maximal de l'aide</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Particulier en copropriété (usage individuel)</strong></td>
+                <td>50 % du montant HT des travaux</td>
+                <td style="font-weight: bold; color: var(--secondary);">960 € TTC</td>
+              </tr>
+              <tr>
+                <td><strong>Infrastructure collective de copropriété</strong></td>
+                <td>50 % du montant de l'infrastructure globale</td>
+                <td style="font-weight: bold; color: var(--secondary);">Selon barème du nombre de places</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            Notre réseau d'électriciens IRVE en Haute-Garonne (31) est labellisé ADVENIR. Cela signifie que la prime individuelle de 960 € est directement gérée par nos soins et déduite de votre facture finale.
+          </p>
+
+          <h2>3. La TVA réduite à 5,5% (Achat et main d'œuvre)</h2>
+          <p>
+            Pour la pose d'une borne de recharge ou d'une prise renforcée Green'Up, le taux de TVA est réduit à <strong>5,5 %</strong> (au lieu de 20 %).
+          </p>
+          <ul style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>Application :</strong> Directement appliquée par l'installateur certifié IRVE sur le devis.</li>
+            <li><strong>Logement :</strong> Maison individuelle ou appartement achevé depuis plus de deux ans.</li>
+            <li><strong>Matériel :</strong> Concerne l'achat de la borne et l'ensemble des protections et câblages nécessaires.</li>
+          </ul>
+
+          <h2>4. Cumuler les aides pour un reste à charge minimal</h2>
+          <p>
+            Voici un exemple classique de simulation budgétaire après déduction des aides d'État en 2026 :
+          </p>
+          <p>
+            Pour la pose d'une wallbox 7 kW monophasée dans le garage d'une maison individuelle à Blagnac (devis global de 1 450 € TTC raccordé) :
+          </p>
+          <ul style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+            <li>Prix initial facturé (TVA 5,5% incluse) : **1 450 €**</li>
+            <li>Crédit d'impôt récupéré l'année suivante : **- 500 €**</li>
+            <li><strong>Reste à charge réel final : 950 €</strong></li>
+          </ul>
+
+          <div style="background: var(--primary-light); border: 1.5px solid var(--border-color); padding: 25px; border-radius: var(--radius-md); margin-top: 40px;">
+            <h3 style="margin-top: 0; color: var(--primary); font-size: 17px; font-weight: 700; border-bottom: 2px solid var(--border-color); padding-bottom: 8px; margin-bottom: 15px;">🔗 Articles connexes utiles</h3>
+            <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 12px; font-size: 14px; margin-bottom: 0;">
+              <li>🛠️ <a href="/guide-installation/" style="color: var(--secondary); font-weight: 700;">Guide technique d'installation Wallbox</a></li>
+              <li>🧮 <a href="/tarifs/" style="color: var(--secondary); font-weight: 700;">Barème de tarifs détaillés 2026 en Haute-Garonne</a></li>
+              <li>🚗 <a href="/v2h-vehicule-to-home/" style="color: var(--secondary); font-weight: 700;">V2H &amp; Véhicule-to-Home à Toulouse</a></li>
+              <li>🏢 <a href="/guides/copropriete-toulouse-droits-syndic/" style="color: var(--secondary); font-weight: 700;">Démarches Droit à la prise en copropriété</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="static-sidebar">
+          <div class="sidebar-widget bg-purple-gradient">
+            <h3>🧮 Obtenez 3 Devis IRVE</h3>
+            <p>Notre réseau d'électriciens qualifiés IRVE en Haute-Garonne vous propose une étude technique gratuite de votre installation électrique.</p>
+            <a href="/devis/" class="sidebar-cta-gold">Demander mes devis gratuits →</a>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3>🏢 Gain Économique</h3>
+            <p style="font-size: 13px;">Recharger sa voiture à domicile en Haute-Garonne permet de réaliser plus de <strong>1 300 € d'économies annuelles</strong> en carburant par rapport à un véhicule essence.</p>
+            <a href="/tarifs/" style="color: var(--secondary); font-weight: 700; font-size: 13px;">Consulter notre grille tarifaire →</a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  @media (max-width: 992px) {
+    .two-column-layout {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

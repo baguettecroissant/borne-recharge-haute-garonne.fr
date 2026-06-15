@@ -1,0 +1,156 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Guide Technique Installation Borne de Recharge Haute-Garonne (31)`;
+const description = `Normes NF C 15-100, câblage, protections électriques obligatoires et étapes d'installation de votre borne de recharge (Wallbox) à domicile.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Guide Technique Installation" }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup 
+    slot="head" 
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={breadcrumbItems}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <section class="static-page-section" style="padding: 50px 0 80px; background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout">
+        
+        <!-- Main Content -->
+        <div class="static-main-content rich-text" style="background: var(--card-bg); padding: 40px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+          <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 20px;">Guide Technique d'Installation de Borne de Recharge (IRVE)</h1>
+          
+          <p>
+            L'installation d'une borne de recharge électrique (Wallbox) à domicile en Haute-Garonne (31) ne s'improvise pas. Elle répond à des exigences réglementaires et sécuritaires strictes, édictées par la norme électrique française <strong>NF C 15-100</strong> et renforcées par le décret du 12 janvier 2017 sur les infrastructures de recharge (IRVE). Ce guide détaille l'ensemble des prescriptions techniques à connaître avant de lancer vos travaux.
+          </p>
+
+          <blockquote style="border-left: 4px solid var(--accent); background: var(--primary-light); padding: 15px 20px; margin: 25px 0; border-radius: var(--radius-sm); color: var(--primary);">
+            <strong>⚠️ Norme NF C 15-100 :</strong> Toute borne de recharge installée dans le cadre résidentiel d'une puissance supérieure à 3.7 kW doit être reliée à un circuit dédié et protégée individuellement au tableau électrique.
+          </blockquote>
+
+          <h2>1. Le Tableau Électrique et les Organes de Protection Obligatoires</h2>
+          <p>
+            Pour garantir la sécurité des personnes et de l'installation contre les surcharges, les courts-circuits et les fuites de courant continu, la ligne d'alimentation d'une Wallbox de 7.4 kW ou 22 kW doit impérativement comporter les protections suivantes au tableau électrique principal :
+          </p>
+          <ul style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>L'Interrupteur Différentiel Type A-EV (ou Type B) :</strong> Il détecte les fuites de courant alternatif ainsi que les fuites de courant continu (courant de défaut supérieur à 6 mA) générées par la batterie du véhicule. Sensibilité obligatoire de 30 mA.</li>
+            <li><strong>Le Disjoncteur Dédié :</strong> Protège la ligne contre les surcharges thermiques. Pour une borne de 7.4 kW (courant nominal de 32A), on installe généralement un disjoncteur de calibre 40A courbe C.</li>
+            <li><strong>Le Déclencheur à Émission de Tension (MN ou MX) :</strong> Raccordé à l'arrêt d'urgence ou aux systèmes de coupure rapide de la borne pour isoler totalement le système en cas de surchauffe ou d'incident majeur.</li>
+          </ul>
+
+          <h2>2. Choix de la Section de Câblage (Acouplement de Distance)</h2>
+          <p>
+            La section en mm² des conducteurs en cuivre (Phase, Neutre, Terre) dépend de la puissance de recharge nominale et de la longueur totale du câble tiré entre votre tableau de répartition principal et l'emplacement de la borne (garage, allée de jardin, parking extérieur) :
+          </p>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Puissance de la Borne</th>
+                <th>Intensité (Calibre)</th>
+                <th>Distance &lt; 20 mètres</th>
+                <th>Distance 20 à 50 mètres</th>
+                <th>Type de Câble Recommandé</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>3.7 kW (Prise renforcée)</strong></td>
+                <td>16A Monophasé</td>
+                <td class="price">2.5 mm²</td>
+                <td class="price">4 mm²</td>
+                <td>R2V 3G2.5</td>
+              </tr>
+              <tr>
+                <td><strong>7.4 kW (Wallbox classique)</strong></td>
+                <td>32A Monophasé</td>
+                <td class="price">10 mm²</td>
+                <td class="price">16 mm²</td>
+                <td>R2V 3G10</td>
+              </tr>
+              <tr>
+                <td><strong>11 kW (Monophasé/Triphasé)</strong></td>
+                <td>16A Triphasé</td>
+                <td class="price">6 mm²</td>
+                <td class="price">10 mm²</td>
+                <td>R2V 5G6</td>
+              </tr>
+              <tr>
+                <td><strong>22 kW (Grand standard Triphasé)</strong></td>
+                <td>32A Triphasé</td>
+                <td class="price">10 mm²</td>
+                <td class="price">16 mm²</td>
+                <td>R2V 5G10</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>3. L'importance cruciale de la Prise de Terre</h2>
+          <p>
+            Pour que la borne accepte de démarrer la charge de votre véhicule (notamment pour des véhicules sensibles comme la Renault Zoe ou la Tesla Model 3), la résistance de votre prise de terre doit être inférieure à <strong>100 Ohms</strong> (idéalement inférieure à 30 Ohms).
+          </p>
+          <p>
+            Lors de la visite technique préalable à Toulouse ou Tournefeuille, nos installateurs IRVE mesurent précisément cette valeur à l'aide d'un telluromètre. Si la valeur est trop élevée, ils procèdent à l'amélioration de la boucle de terre en plantant des piquets de terre en cuivre supplémentaires dans votre jardin.
+          </p>
+
+          <h2>4. Les étapes du chantier d'installation à domicile</h2>
+          <p>
+            Un chantier d'installation standard à domicile dure environ une demi-journée à une journée entière et se déroule selon les étapes clés suivantes :
+          </p>
+          <ol style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>Audit technique initial :</strong> Vérification de la puissance souscrite auprès de votre fournisseur d'électricité (abonnement 6kVA, 9kVA ou plus) et du type de raccordement (monophasé ou triphasé).</li>
+            <li><strong>Fixation et pose :</strong> Fixation murale solide de la borne ou sur un pied de support métallique scellé dans le sol en extérieur.</li>
+            <li><strong>Cheminement des câbles :</strong> Passage du câble R2V sous goulotte propre ou réalisation d'une tranchée extérieure avec fourreau rouge NF TPC de 40mm de diamètre si le câble doit traverser un jardin.</li>
+            <li><strong>Raccordements électriques :</strong> Raccordement de la ligne dédiée sur les modules de protection préalablement implantés sur votre tableau.</li>
+            <li><strong>Mise en service et essais :</strong> Tests avec une console de simulation de charge pour valider le verrouillage de la prise de Type 2, le dialogue de communication et le fonctionnement du délestage dynamique Linky.</li>
+          </ol>
+
+          <div style="background: var(--primary-light); border: 1.5px solid var(--border-color); padding: 25px; border-radius: var(--radius-md); margin-top: 40px;">
+            <h3 style="margin-top: 0; color: var(--primary); font-size: 17px; font-weight: 700; border-bottom: 2px solid var(--border-color); padding-bottom: 8px; margin-bottom: 15px;">🔗 Liens utiles & Articles recommandés</h3>
+            <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 12px; font-size: 14px; margin-bottom: 0;">
+              <li>🧮 <a href="/tarifs/" style="color: var(--secondary); font-weight: 700;">Consultez nos prix d'installation détaillée 2026</a></li>
+              <li>💰 <a href="/aides-advenir/" style="color: var(--secondary); font-weight: 700;">Découvrez les primes ADVENIR et crédit d'impôt</a></li>
+              <li>🚗 <a href="/v2h-vehicule-to-home/" style="color: var(--secondary); font-weight: 700;">Comprendre la technologie V2H bidirectionnelle</a></li>
+              <li>🏢 <a href="/guides/copropriete-toulouse-droits-syndic/" style="color: var(--secondary); font-weight: 700;">Normes et démarches en copropriété (31)</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="static-sidebar">
+          <div class="sidebar-widget bg-purple-gradient">
+            <h3>🛠️ Devis de pose IRVE</h3>
+            <p>Obtenez une offre ferme de pose incluant le câble de protection et la mise aux normes de votre tableau électrique.</p>
+            <a href="/devis/" class="sidebar-cta-gold">Demander mes devis techniques →</a>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3>⚖️ Réglementation IRVE</h3>
+            <p style="font-size: 13px;">Depuis le 12 janvier 2017, la certification <strong>IRVE Qualifelec ou AFNOR</strong> de l'électricien est juridiquement requise sous peine d'annulation des contrats d'assurance habitation.</p>
+            <a href="/guides/installateur-irve-haute-garonne-choisir/" style="color: var(--secondary); font-weight: 700; font-size: 13px;">Comment choisir son installateur →</a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  @media (max-width: 992px) {
+    .two-column-layout {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

@@ -1,0 +1,153 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Tarifs Pose Borne de Recharge Haute-Garonne (31) - Prix 2026`;
+const description = `Découvrez notre grille de tarifs détaillés pour l'installation d'une borne de recharge ou d'une prise Green'Up dans le 31 en 2026.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Tarifs Installation 2026" }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup 
+    slot="head" 
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={breadcrumbItems}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <section class="static-page-section" style="padding: 50px 0 80px; background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout">
+        
+        <!-- Main Content -->
+        <div class="static-main-content rich-text" style="background: var(--card-bg); padding: 40px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+          <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 20px;">Grille Tarifaire Installation Borne de Recharge en 2026</h1>
+          
+          <p>
+            Quel est le coût réel pour équiper son domicile d'une borne de recharge électrique IRVE dans le département de la Haute-Garonne (31) ? Le budget total dépend principalement du type d'équipement choisi (prise renforcée, borne monophasée 7.4 kW ou triphasée 22 kW), de la longueur de câblage nécessaire pour relier la borne au tableau de répartition principal, et des contraintes d'intégration (goulottes intérieures ou tranchée extérieure).
+          </p>
+
+          <h2>1. Prix Moyens Observés pour les Équipements de Recharge (Matériel + Pose)</h2>
+          <p>
+            Les tarifs ci-dessous indiquent les moyennes départementales pratiquées par notre réseau d'artisans électriciens qualifiés IRVE en Haute-Garonne, TVA de 5,5% incluse (pour les logements achevés depuis plus de 2 ans) :
+          </p>
+          
+          <div class="table-scroll-wrapper" style="overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%;">
+            <table class="data-table" style="min-width: 500px; width: 100%; border-collapse: collapse; margin: 25px 0;">
+              <thead>
+                <tr>
+                  <th style="padding: 12px; border-bottom: 2px solid var(--border-color); text-align: left;">Type de Solution</th>
+                  <th style="padding: 12px; border-bottom: 2px solid var(--border-color); text-align: left;">Puissance &amp; Vitesse</th>
+                  <th style="padding: 12px; border-bottom: 2px solid var(--border-color); text-align: left;">Matériel &amp; Pose Standard</th>
+                  <th style="padding: 12px; border-bottom: 2px solid var(--border-color); text-align: left;">Reste à charge (Aides Déduites)*</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><strong>Prise renforcée Green'Up</strong></td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">3.7 kW (16A Monophasé)</td>
+                  <td class="price" style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: bold; color: var(--accent);">450 € - 750 €</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: bold; color: var(--secondary);">450 € - 750 €</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><strong>Wallbox standard (ex: Copper SB)</strong></td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">7.4 kW (32A Monophasé)</td>
+                  <td class="price" style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: bold; color: var(--accent);">1 250 € - 1 650 €</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: bold; color: var(--secondary);">750 € - 1 150 €</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><strong>Wallbox connectée haut de gamme</strong></td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">7.4 kW (Monophasé + Wi-Fi/4G)</td>
+                  <td class="price" style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: bold; color: var(--accent);">1 450 € - 1 950 €</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: bold; color: var(--secondary);">950 € - 1 450 €</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><strong>Borne triphasée (ex: EVBox, Keba)</strong></td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">11 ou 22 kW (Triphasé)</td>
+                  <td class="price" style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: bold; color: var(--accent);">1 650 € - 2 500 €</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: bold; color: var(--secondary);">1 150 € - 2 000 €</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size: 12.5px; color: var(--text-muted);">
+            * Note : Le reste à charge minimal est calculé pour une maison individuelle après imputation du crédit d'impôt national de 500 €. En copropriété, s'ajoute la prime ADVENIR individuelle de 960 € TTC, réduisant le reste à charge réel jusqu'à 50% supplémentaire.
+          </p>
+
+          <h2>2. Prix des Prestations Complémentaires et Travaux Induits</h2>
+          <p>
+            Chaque configuration de logement comporte ses propres contraintes. Voici la tarification moyenne des prestations optionnelles fréquentes lors des chantiers d'installation :
+          </p>
+          <ul style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>Longueur de câblage supplémentaire (au-delà du forfait initial de 10m) :</strong> Compter entre 15 € et 30 € par mètre supplémentaire en câble R2V 3G10 (goulotte comprise).</li>
+            <li><strong>Délestage dynamique intelligent (Smart Charging) :</strong> Forfait de 120 € à 250 € pour la fourniture et la pose d'un module de communication avec votre compteur Linky (type TIC ou tore de mesure).</li>
+            <li><strong>Travaux de terrassement / Génie Civil :</strong> Réalisation d'une tranchée dans la terre, pose du fourreau et remblayage pour un tarif moyen de 50 € à 90 € par mètre linéaire.</li>
+            <li><strong>Pied de support métallique :</strong> Pour fixation de la borne en milieu d'allée (sans mur porteur direct) : 180 € à 320 € TTC (pose scellée).</li>
+          </ul>
+
+          <h2>3. Impact Budgétaire du Passage de Monophasé à Triphasé</h2>
+          <p>
+            Si vous souhaitez recharger votre voiture électrique à 11 kW ou 22 kW pour récupérer votre pleine autonomie en moins de 3 heures, votre installation domestique doit être alimentée en courant triphasé. Si votre logement à Toulouse ou Muret est actuellement en monophasé :
+          </p>
+          <ul style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+            <li>Vous devez demander à Enedis le changement de raccordement réseau (prestation généralement facturée environ 160 € par le gestionnaire).</li>
+            <li>Votre électricien IRVE devra restructurer le tableau électrique principal pour équilibrer les trois phases et changer les protections pour des modules tétrapolaires (surcoût moyen sur le tableau de 250 € à 500 €).</li>
+          </ul>
+
+          <h2>4. Conseils d'expert pour optimiser le coût de votre borne</h2>
+          <p>
+            Pour payer votre installation au prix le plus juste :
+          </p>
+          <ol style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>Installez la borne à proximité du tableau :</strong> Plus la borne est proche de votre compteur, moins le coût du câble en cuivre de grosse section (10mm²) et des goulottes sera élevé.</li>
+            <li><strong>Optez pour le délestage dynamique :</strong> Plutôt que d'augmenter la puissance de votre abonnement d'électricité (ce qui augmente le coût annuel de votre abonnement EDF/Engie), installez un module de délestage qui régule la borne en temps réel.</li>
+            <li><strong>Demandez des devis comparatifs :</strong> En comparant 3 professionnels IRVE locaux en Haute-Garonne, vous bénéficiez du meilleur tarif de main-d'œuvre et évitez les surcoûts injustifiés.</li>
+          </ol>
+
+          <div style="background: var(--primary-light); border: 1.5px solid var(--border-color); padding: 25px; border-radius: var(--radius-md); margin-top: 40px;">
+            <h3 style="margin-top: 0; color: var(--primary); font-size: 17px; font-weight: 700; border-bottom: 2px solid var(--border-color); padding-bottom: 8px; margin-bottom: 15px;">🔗 Liens utiles & Articles recommandés</h3>
+            <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 12px; font-size: 14px; margin-bottom: 0;">
+              <li>💰 <a href="/aides-advenir/" style="color: var(--secondary); font-weight: 700;">Détail complet des aides et primes ADVENIR 2026</a></li>
+              <li>🛠️ <a href="/guide-installation/" style="color: var(--secondary); font-weight: 700;">Guide technique de câblage et normes NF C 15-100</a></li>
+              <li>🚗 <a href="/v2h-vehicule-to-home/" style="color: var(--secondary); font-weight: 700;">La technologie bidirectionnelle V2H à Toulouse</a></li>
+              <li>🏢 <a href="/guides/copropriete-toulouse-droits-syndic/" style="color: var(--secondary); font-weight: 700;">Frais et démarches pour borne en copropriété</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="static-sidebar">
+          <div class="sidebar-widget bg-purple-gradient">
+            <h3>🧮 Simuler mon devis</h3>
+            <p>Remplissez notre formulaire en 2 minutes pour recevoir 3 offres comparatives personnalisées d'électriciens IRVE Haute-Garonne.</p>
+            <a href="/devis/" class="sidebar-cta-gold">Faire ma simulation en ligne →</a>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3>📈 Rentabilité Immédiate</h3>
+            <p style="font-size: 13px;">Avec un coût moyen de recharge à domicile de **2.80 € les 100 km** (tarif de nuit Enedis) contre environ **12.50 €** en essence, votre installation de Wallbox est amortie en moins de 18 mois.</p>
+            <a href="/guides/prix-borne-recharge-haute-garonne-2026/" style="color: var(--secondary); font-weight: 700; font-size: 13px;">Analyse des prix locaux →</a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  @media (max-width: 992px) {
+    .two-column-layout {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

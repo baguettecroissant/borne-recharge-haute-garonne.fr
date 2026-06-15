@@ -1,0 +1,262 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import CityMap from '../components/CityMap.astro';
+import StepsForm from '../components/StepsForm.astro';
+import config from '../data/config.json';
+import communes from '../data/communes.json';
+import { generateCommuneContent, getDynamicPrices } from '../lib/contentEngine';
+import { getSmartNearbyCommunes } from '../lib/geoLinks';
+
+export async function getStaticPaths() {
+  return communes.map((c) => ({
+    params: { commune: c.slug },
+    props: { commune: c },
+  }));
+}
+
+const { commune } = Astro.props;
+const content = generateCommuneContent(commune, 'copropriete');
+const prices = getDynamicPrices(commune);
+
+const title = `Borne Recharge en Copropriété ${commune.nom} (${commune.codePostal}) | Aides ADVENIR`;
+const description = `Droit à la prise et installation de borne de recharge en copropriété à ${commune.nom}. Obtenez 3 devis d'électriciens IRVE certifiés ADVENIR.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Villes (31)", href: "/communes/" },
+  { label: `Copropriété ${commune.nom}` }
+];
+
+// Get nearby communes for interlinking
+const nearby = getSmartNearbyCommunes(commune.slug, communes, 6, 2);
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup 
+    slot="head" 
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={breadcrumbItems}
+    communeName={commune.nom}
+    faqItems={content.faqItems}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <!-- Localized Hero Section -->
+  <section class="hero" style="background: linear-gradient(135deg, #500724 0%, #be185d 100%); color: white; padding: 60px 0 70px; position: relative;">
+    <div class="container">
+      <div class="hero-inner" style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center;">
+        <div>
+          <span class="hero-badge">🏢 Droit à la prise &amp; ADVENIR à {commune.nom}</span>
+          <h1 style="font-size: 34px; color: white; line-height: 1.25; margin-bottom: 20px; font-weight: 800;">
+            Borne de Recharge en Copropriété à {commune.nom}
+          </h1>
+          <p style="font-size: 16px; color: var(--primary-light); margin-bottom: 25px; line-height: 1.6;">
+            {content.introParagraph}
+          </p>
+          <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+            <div style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 12px 18px; border-radius: 8px; font-size: 13.5px;">
+              <strong>Prime ADVENIR Individuelle :</strong><br/>
+              Jusqu'à <span style="color: #fca5a5; font-weight: bold; font-size: 15px;">960 € TTC déduits</span>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 12px 18px; border-radius: 8px; font-size: 13.5px;">
+              <strong>TVA Simplifiée :</strong><br/>
+              Taux réduit de <span style="color: #fca5a5; font-weight: bold; font-size: 15px;">5,5% Direct</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Lead Form -->
+        <div id="devis">
+          <StepsForm />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="static-page-section" style="padding: 65px 0; background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout">
+        
+        <!-- Main Content -->
+        <div class="static-main-content rich-text" style="background: var(--card-bg); padding: 40px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+          
+          <h2>1. Le Droit à la prise en copropriété à {commune.nom} ({commune.codePostal})</h2>
+          <p>
+            {content.useCaseText}
+          </p>
+          <p>
+            {content.populationTierContent}
+          </p>
+
+          <blockquote style="border-left: 4px solid var(--accent); background: var(--primary-light); padding: 15px 20px; margin: 25px 0; border-radius: var(--radius-sm); color: var(--primary);">
+            <strong>🏢 Rappel Juridique :</strong> Le décret du 24 décembre 2020 (Droit à la prise) facilite grandement les démarches individuelles. Les syndics en Haute-Garonne disposent d'un délai maximal de 3 mois pour notifier une opposition motivée devant le tribunal judiciaire, faute de quoi les travaux peuvent commencer.
+          </blockquote>
+
+          <h2>2. Prix indicatif de raccordement en parking collectif</h2>
+          <p>
+            {content.tableIntro}
+          </p>
+
+          <div class="table-scroll-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Prestation technique</th>
+                  <th>Puissance</th>
+                  <th>Prix Moyen TTC (Fourniture + Pose)</th>
+                  <th>Aides Déduites (Copropriété)*</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Borne individuelle sur TGBT parties communes</strong></td>
+                  <td>3.7 kW / 7.4 kW</td>
+                  <td class="price">{prices.copro.min} € - {prices.copro.max} €</td>
+                  <td style="font-weight: bold; color: var(--secondary);">{prices.copro.min - 960 - 500} € - {prices.copro.max - 960 - 500} €</td>
+                </tr>
+                <tr>
+                  <td><strong>Borne connectée avec lecteur RFID</strong></td>
+                  <td>7.4 kW Monophasé</td>
+                  <td class="price">{prices.copro.min + 200} € - {prices.copro.max + 300} €</td>
+                  <td style="font-weight: bold; color: var(--secondary);">{prices.copro.min + 200 - 960 - 500} € - {prices.copro.max + 300 - 960 - 500} €</td>
+                </tr>
+                <tr>
+                  <td><strong>Infrastructure collective de copropriété</strong></td>
+                  <td>Calcul global</td>
+                  <td class="price">Sur devis technique</td>
+                  <td style="font-weight: bold; color: var(--secondary);">Financement ADVENIR 50%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.45;">
+            * Le reste à charge réel pour un copropriétaire de {commune.nom} cumule la prime ADVENIR individuelle de 50% (plafonnée à 960 € TTC) et le crédit d'impôt forfaitaire national de 500 €. Nos artisans partenaires sont certifiés RGE / IRVE, vous garantissant le versement effectif de ces aides.
+          </p>
+
+          <h2>3. Étapes pour installer votre borne en résidence à {commune.nom}</h2>
+          <ol style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>Demande de devis IRVE :</strong> Nos électriciens font une pré-étude de votre place de parking à {commune.nom}.</li>
+            <li><strong>Notification au syndic :</strong> Envoi du descriptif détaillé des travaux et schéma de raccordement par lettre recommandée avec AR.</li>
+            <li><strong>Délai légal d'instruction :</strong> Le syndic dispose de 3 mois pour inscrire le point à l'ordre du jour ou proposer une solution collective.</li>
+            <li><strong>Réalisation des travaux :</strong> Raccordement sécurisé, pose des protections et labellisation ADVENIR.</li>
+          </ol>
+
+          <!-- Interactive Map -->
+          <div style="margin: 30px 0; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+            <CityMap address={`${commune.nom}, Haute-Garonne, France`} />
+          </div>
+
+          <h2>4. Spécificités du câblage &amp; sécurité collective dans le 31</h2>
+          <p>
+            {content.communeDataInsight}
+          </p>
+          <p>
+            {content.logisticsAlert}
+          </p>
+          <p>
+            {content.marcheImmobilierInsight}
+          </p>
+          <!-- External Resources & Official Links -->
+          <div style="margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 30px;">
+            <h2>5. Ressources officielles — Copropriété & aides ADVENIR</h2>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 15px;">Liens vérifiés vers les organismes de référence pour votre projet en copropriété à {commune.nom} :</p>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              {content.externalLinks.map((link) => (
+                <a href={link.url} target="_blank" rel="noopener noreferrer" style="display: flex; gap: 12px; padding: 14px 18px; background: var(--bg); border: 1px solid var(--border-color); border-radius: var(--radius-sm); transition: var(--transition); align-items: flex-start;">
+                  <span style="font-size: 18px; flex-shrink: 0;">🔗</span>
+                  <div>
+                    <span style="font-weight: 700; font-size: 14px; color: var(--secondary); display: block;">{link.label}</span>
+                    <span style="font-size: 12.5px; color: var(--text-muted); line-height: 1.4; display: block; margin-top: 3px;">{link.description}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <!-- Guide Links -->
+          <div style="margin-top: 35px; background: var(--primary-light); border: 1.5px solid var(--border-color); padding: 25px; border-radius: var(--radius-md);">
+            <h3 style="margin-top: 0; color: var(--primary); font-size: 16px; font-weight: 700; border-bottom: 2px solid var(--border-color); padding-bottom: 8px; margin-bottom: 15px;">📖 Guides complémentaires recommandés</h3>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              {content.guideLinks.map((guide) => (
+                <a href={guide.href} style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-sm); transition: var(--transition);">
+                  <div>
+                    <span style="font-weight: 700; font-size: 13.5px; color: var(--secondary);">{guide.label}</span>
+                    <span style="font-size: 12px; color: var(--text-muted); display: block; margin-top: 2px;">{guide.desc}</span>
+                  </div>
+                  <span style="color: var(--accent); font-size: 16px; flex-shrink: 0;">→</span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <p style="font-size: 11.5px; color: var(--text-muted); margin-top: 25px; font-style: italic; border-top: 1px solid var(--border-color); padding-top: 15px;">
+            {content.sourcesCitation} — Mis à jour : {content.lastUpdated}
+          </p>
+
+          <!-- FAQ Accordion -->
+          <h2 style="margin-top: 40px;">FAQ : Bornes en copropriété à {commune.nom}</h2>
+          <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 20px;">
+            {content.faqItems.map((faq) => (
+              <details class="faq-details">
+                <summary>{faq.question}</summary>
+                <div class="faq-answer">
+                  <p>{faq.answer}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+
+          <!-- Interlinking to nearby communes -->
+          <div style="border-top: 1px solid var(--border-color); padding-top: 35px; margin-top: 45px;">
+            <h3 style="margin-top: 0; color: var(--primary); font-size: 16px; margin-bottom: 15px;">🏢 Raccordement en copropriété dans les communes proches :</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+              {nearby.map((n) => (
+                <a href={`/borne-recharge-copropriete-${n.slug}/`} style="font-size: 13px; color: var(--secondary); font-weight: 700; background: var(--primary-light); padding: 8px 12px; border-radius: 4px; border: 1.5px solid var(--border-color);">
+                  🏢 Borne copropriété - {n.nom} ({n.codePostal}) &rarr;
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="static-sidebar">
+          <div class="sidebar-widget bg-purple-gradient">
+            <h3>🏢 Estimer mes aides copropriété</h3>
+            <p>Bénéficiez de la prime ADVENIR déduite directement de votre devis par nos installateurs certifiés.</p>
+            <a href="#devis" class="sidebar-cta-gold">Faire ma demande syndic &rarr;</a>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3>🔌 Autres configurations</h3>
+            <p style="font-size: 13px;">Vous possédez une maison individuelle ou souhaitez comparer les prix des bornes intelligentes ?</p>
+            <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+              <li>🔌 <a href={`/installateur-borne-recharge-${commune.slug}/`} style="color: var(--secondary); font-weight: 700;">Pose de borne en Maison à {commune.nom} &rarr;</a></li>
+              <li>⚡ <a href={`/wallbox-${commune.slug}/`} style="color: var(--secondary); font-weight: 700;">Modèles Wallbox à {commune.nom} &rarr;</a></li>
+            </ul>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3>📈 Valorisation verte</h3>
+            <p style="font-size: 13.5px; line-height: 1.55;">{content.realEstateInsight}</p>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  @media (max-width: 992px) {
+    .hero-inner {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

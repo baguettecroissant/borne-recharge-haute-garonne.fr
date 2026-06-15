@@ -1,0 +1,138 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Recharge Bidirectionnelle V2H Véhicule-to-Home Haute-Garonne (31)`;
+const description = `Découvrez la technologie V2H (Vehicle-to-Home) à Toulouse et en Haute-Garonne. Alimentez votre maison intelligente avec la batterie de votre voiture électrique.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "V2H Bidirectionnel" }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup 
+    slot="head" 
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={breadcrumbItems}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <section class="static-page-section" style="padding: 50px 0 80px; background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout">
+        
+        <!-- Main Content -->
+        <div class="static-main-content rich-text" style="background: var(--card-bg); padding: 40px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+          <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 20px;">Technologie V2H : Le Véhicule-to-Home à Toulouse et en Haute-Garonne</h1>
+          
+          <p>
+            Et si votre voiture électrique devenait la batterie principale de votre maison ? Avec l'émergence des technologies de recharge intelligente bidirectionnelle (V2H ou <em>Vehicle-to-Home</em>), les foyers équipés en Haute-Garonne (31) peuvent désormais réinjecter l'électricité stockée dans leur véhicule pour alimenter leurs appareils domestiques, réduisant ainsi drastiquement leurs factures d'énergie.
+          </p>
+
+          <blockquote style="border-left: 4px solid var(--accent); background: var(--primary-light); padding: 15px 20px; margin: 25px 0; border-radius: var(--radius-sm); color: var(--primary);">
+            <strong>⚡ Définition simple :</strong> Alors que la recharge standard transfère le courant du réseau électrique vers le véhicule (G2V - Grid-to-Vehicle), le bidirectionnel V2H permet au courant de circuler dans les deux sens pour alimenter le foyer lors des heures de pointe tarifaires ou en cas de coupure de courant.
+          </blockquote>
+
+          <h2>1. Comment fonctionne le V2H (Vehicle-to-Home) ?</h2>
+          <p>
+            Pour bénéficier du V2H chez vous à Toulouse, Colomiers, Tournefeuille ou Blagnac, trois composants techniques majeurs sont requis :
+          </p>
+          <ul style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>Une voiture compatible :</strong> Le véhicule doit intégrer un protocole de communication bidirectionnel (norme ISO 15118-20 ou protocole CHAdeMO). C'est le cas de modèles comme la Nissan Leaf, la Hyundai Ioniq 5, la Kia EV6, ou la future Renault 5 E-Tech dotée de son chargeur Mobilize.</li>
+            <li><strong>Une Wallbox bidirectionnelle :</strong> Contrairement aux bornes standards, la borne V2H intègre un convertisseur de courant capable de transformer le courant continu (DC) de la batterie automobile en courant alternatif (AC) compatible avec votre tableau électrique de maison.</li>
+            <li><strong>Un gestionnaire d'énergie (EMS) :</strong> Installé près de votre compteur Linky, il régule le flux pour s'assurer que la voiture n'injecte de l'électricité que lorsque la maison en a besoin et conserve toujours l'autonomie minimale souhaitée pour vos trajets.</li>
+          </ul>
+
+          <h2>2. Les avantages du V2H pour les foyers haut-garonnais</h2>
+          <p>
+            L'Occitanie bénéficie d'un excellent taux d'ensoleillement et d'un dynamisme fort autour des réseaux électriques intelligents (notamment grâce aux ingénieurs aéronautiques d'Airbus à Toulouse qui développent des micro-grids). Voici les gains majeurs du V2H :
+          </p>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Bénéfice</th>
+                <th>Description technique</th>
+                <th>Impact financier annuel estimé</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Arbitrage Tarifaire</strong></td>
+                <td>Recharge de la voiture en heures creuses (nuit) et décharge dans la maison pendant les heures pleines (matin/soir).</td>
+                <td style="font-weight: bold; color: var(--secondary);">250 € à 450 € d'économie</td>
+              </tr>
+              <tr>
+                <td><strong>Autoconsommation Solaire</strong></td>
+                <td>Stockage du surplus de vos panneaux photovoltaïques la journée dans la voiture pour le restituer la nuit.</td>
+                <td style="font-weight: bold; color: var(--secondary);">Jusqu'à 65% d'autonomie électrique</td>
+              </tr>
+              <tr>
+                <td><strong>Secours Électrique (Back-up)</strong></td>
+                <td>En cas de panne sur le réseau Enedis (tempêtes, orages dans le piémont pyrénéen), la voiture alimente les équipements essentiels.</td>
+                <td style="font-weight: bold; color: var(--secondary);">Confort & Sécurité total</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>3. V2H vs V2G (Vehicle-to-Grid) : Quelle différence ?</h2>
+          <p>
+            Il ne faut pas confondre V2H et V2G :
+          </p>
+          <ul style="margin-left: 20px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>Le V2H (Home) :</strong> Le courant reste au sein de votre propriété. Il sert directement à alimenter votre pompe à chaleur, votre climatisation ou votre électroménager. C'est une solution 100% autonome et non soumise aux taxes d'injection sur le réseau national.</li>
+            <li><strong>Le V2G (Grid) :</strong> Le courant est réinjecté sur le réseau de distribution d'Enedis. Vous revendez cette électricité au réseau national pendant les pics de consommation globale pour aider à stabiliser le réseau.</li>
+          </ul>
+
+          <h2>4. Installation d'une borne V2H en Haute-Garonne en 2026</h2>
+          <p>
+            Le déploiement des bornes bidirectionnelles s'accélère fortement. Bien que le coût d'acquisition d'une borne V2H soit supérieur à celui d'une Wallbox classique (compter entre 2 500 € et 4 500 € selon la puissance et le modèle de convertisseur), la rentabilité à moyen terme est garantie pour les foyers ayant de forts besoins en chauffage ou équipés de panneaux solaires.
+          </p>
+          <p>
+            Nos électriciens qualifiés IRVE basés à Toulouse et Muret sont formés aux dernières technologies de communication bidirectionnelle. Ils réalisent l'étude de votre tableau électrique et configurent le couplage dynamique avec votre compteur Linky pour maximiser l'autonomie de votre foyer.
+          </p>
+
+          <div style="background: var(--primary-light); border: 1.5px solid var(--border-color); padding: 25px; border-radius: var(--radius-md); margin-top: 40px;">
+            <h3 style="margin-top: 0; color: var(--primary); font-size: 17px; font-weight: 700; border-bottom: 2px solid var(--border-color); padding-bottom: 8px; margin-bottom: 15px;">🔗 Liens utiles & Articles recommandés</h3>
+            <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 12px; font-size: 14px; margin-bottom: 0;">
+              <li>💰 <a href="/aides-advenir/" style="color: var(--secondary); font-weight: 700;">Subventions et Aides ADVENIR 2026</a></li>
+              <li>🛠️ <a href="/guide-installation/" style="color: var(--secondary); font-weight: 700;">Guide technique de câblage et normes IRVE</a></li>
+              <li>🧮 <a href="/tarifs/" style="color: var(--secondary); font-weight: 700;">Prix de pose d'une borne de recharge (31)</a></li>
+              <li>☀️ <a href="/guides/wallbox-panneaux-solaires-occitanie/" style="color: var(--secondary); font-weight: 700;">Solaire & Wallbox en Occitanie</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="static-sidebar">
+          <div class="sidebar-widget bg-purple-gradient">
+            <h3>🔌 Étude Technique V2H</h3>
+            <p>Déterminez si votre véhicule et votre tableau électrique actuel sont prêts pour la recharge bidirectionnelle.</p>
+            <a href="/devis/" class="sidebar-cta-gold">Demander mon étude gratuite →</a>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3>💡 Le Saviez-vous ?</h3>
+            <p style="font-size: 13px;">Une batterie de voiture électrique standard (60 kWh) peut alimenter une maison individuelle moyenne pendant **3 à 4 jours complets** sans aucune recharge extérieure.</p>
+            <a href="/guides/comparateur-wallbox-connectees-2026/" style="color: var(--secondary); font-weight: 700; font-size: 13px;">Comparatif des bornes 2026 →</a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  @media (max-width: 992px) {
+    .two-column-layout {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Demande Validée avec Succès | ${config.brandName}`;
+const description = `Votre demande d'estimation de subvention et de devis a été validée. Un installateur IRVE de Haute-Garonne va prendre contact avec vous.`;
+---
+
+<Layout title={title} description={description} robots="noindex, nofollow">
+  <section style="min-height: 80vh; display: flex; align-items: center; padding: 60px 0; background-color: var(--bg);">
+    <div class="container" style="max-width: 600px;">
+      <div style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 50px 40px; border-radius: var(--radius-md); text-align: center; box-shadow: var(--shadow-lg);">
+        <div style="width: 80px; height: 80px; background-color: var(--primary-light); border: 2px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="var(--primary)" style="width: 40px; height: 40px;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+        </div>
+
+        <h1 style="font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--primary); margin-bottom: 15px;">Demande Reçue avec Succès !</h1>
+        <p style="font-size: 16px; color: var(--text); line-height: 1.6; margin-bottom: 30px;">
+          Merci pour votre confiance. Votre dossier d'estimation de subvention ADVENIR et de crédit d'impôt 2026 a été qualifié avec succès par nos serveurs locaux.
+        </p>
+
+        <div style="background-color: var(--primary-light); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-sm); margin-bottom: 35px; text-align: left;">
+          <h3 style="font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 8px;">🗓️ Prochaines étapes :</h3>
+          <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; color: var(--text-muted);">
+            <li style="display: flex; gap: 8px;"><strong style="color: var(--primary);">1.</strong> Validation technique de votre câblage par un électricien.</li>
+            <li style="display: flex; gap: 8px;"><strong style="color: var(--primary);">2.</strong> Réception par e-mail / téléphone sous 48h de 3 devis comparatifs.</li>
+            <li style="display: flex; gap: 8px;"><strong style="color: var(--primary);">3.</strong> Planification d'une visite sur site à votre domicile (sans engagement).</li>
+          </ul>
+        </div>
+
+        <a href="/" style="display: inline-block; background-color: var(--accent); color: white; padding: 14px 35px; border-radius: 50px; font-weight: 800; font-size: 15px; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3); transition: var(--transition);">
+          Retourner à l'accueil
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
