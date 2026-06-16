@@ -1,9 +1,5 @@
 User-agent: *
 Allow: /
-
-# Block utility & legal pages from crawling budget waste
 Disallow: /confirmation/
-Disallow: /api/
 
-# Sitemap location
 Sitemap: https://borne-recharge-haute-garonne.fr/sitemap-index.xml
