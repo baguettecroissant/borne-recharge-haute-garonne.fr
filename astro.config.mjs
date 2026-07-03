@@ -7,7 +7,9 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   site: 'https://borne-recharge-haute-garonne.fr',
   output: 'static',
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: 'passthrough'
+  }),
   integrations: [
     sitemap({
       filter: (page) =>

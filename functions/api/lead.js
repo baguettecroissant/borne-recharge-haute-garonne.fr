@@ -23,8 +23,8 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 // ── Category name mapping for Borne de Recharge ──
 const CAT_NAMES = {
-  281: 'Pose de borne de recharge',
-  282: 'Pose de prise de recharge',
+  164: 'Pose de borne de recharge',
+  167: 'Pose de prise de recharge',
 };
 
 // ── CORS headers ──

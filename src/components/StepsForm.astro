@@ -18,14 +18,14 @@ const { initialZip = "" } = Astro.props;
       <div class="form-group">
         <label>1. Quel est votre projet d'installation de recharge ?</label>
         <div class="options-grid">
-          <div class="option-box active" data-value="281" data-step="1">
+          <div class="option-box active" data-value="164" data-step="1">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
             <span>Borne de Recharge (Wallbox)</span>
             <span class="desc-text">Recharge rapide 7.4 kW, 11 kW ou 22 kW</span>
           </div>
-          <div class="option-box" data-value="282" data-step="1">
+          <div class="option-box" data-value="167" data-step="1">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
             </svg>
@@ -33,7 +33,7 @@ const { initialZip = "" } = Astro.props;
             <span class="desc-text">Recharge lente sécurisée 3.7 kW</span>
           </div>
         </div>
-        <input type="hidden" name="cat_id" id="cat_id" value="281" />
+        <input type="hidden" name="cat_id" id="cat_id" value="164" />
       </div>
       <div class="form-nav">
         <button type="button" class="btn-primary next-btn" data-next="2" style="width: 100%;">Continuer &rarr;</button>
@@ -382,7 +382,7 @@ const { initialZip = "" } = Astro.props;
     }
 
     const formData = new FormData(form as HTMLFormElement);
-    const catIdVal = Number(document.getElementById('cat_id')?.getAttribute('value') || (document.getElementById('cat_id') as HTMLInputElement)?.value || 281);
+    const catIdVal = Number(document.getElementById('cat_id')?.getAttribute('value') || (document.getElementById('cat_id') as HTMLInputElement)?.value || 164);
     
     const typeBienLabel = (document.getElementById('type_bien') as HTMLInputElement)?.value === '1' ? 'Maison' : 'Appartement';
     const statusLabel = (document.getElementById('situation') as HTMLInputElement)?.value === '1' ? 'Propriétaire' : 'Locataire';
