@@ -66,7 +66,7 @@ export async function onRequestPost(context) {
     const clientIp = context.request.headers.get('CF-Connecting-IP') || '';
     const userAgent = context.request.headers.get('User-Agent') || '';
     const consentTimestamp = String(consent_timestamp || '').trim();
-    const consentUrl = String(pageUrl || context.request.headers.get('Referer') || `https://${SITE_DOMAIN}`).trim().slice(0, 500);
+    const consentUrl = String(pageUrl || context.request.headers.get('Referer') || '').trim().slice(0, 500);
 
     // ── Server-side validation ──
     const errors = [];
